@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -8,13 +8,31 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'ProgressBar';
 
-  max = 100;
-  value = 30;
+  nPB: boolean = false; 
+  progressValue:any;
 
-  onChange(progressValue:any) {
-    console.log("Progress is " + progressValue +"%")
+  @Input() value = 35;
+  @Input() label = '';
+  @Input() max = 100;
+  @Output() progressClick = new EventEmitter();
+
+  onChange() {
+    console.log("Progress is " + this.progressValue +"%")
   }
-  onClick(progressValue:any) {
-    console.log("Progress is " + progressValue +"%")
+  showPB(value: number){
+    this.nPB=false;    
+    value ==1 ? this.nPB=true : value ==2
   }
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+  
+  onClick() {
+    this.progressClick.emit(this.value);
+    this.progressValue = this.value;
+    console.log("Progress is " + this.progressValue +"%")
+  }
+
+  
 }
